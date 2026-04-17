@@ -13,7 +13,15 @@ let _redis: Redis | null = null;
 
 function redis(): Redis {
   if (!_redis) {
-    _redis = Redis.fromEnv();
+    // Vercel Upstash integration injects KV_REST_API_URL / KV_REST_API_TOKEN
+    // @upstash/redis fromEnv() expects UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN
+    const url = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
+    const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
+    if (url && token) {
+      _redis = new Redis({ url, token });
+    } else {
+      _redis = Redis.fromEnv();
+    }
   }
   return _redis;
 }
