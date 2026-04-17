@@ -96,7 +96,7 @@ export default function AdminDashboard() {
     }
     const ck = encodeURIComponent(compositeKey(skin.id, skin.version));
     const res = await fetch(`/api/admin/skins/${ck}`, { method: "DELETE" });
-    if (!res.ok && res.status !== 204) {
+    if (!res.ok) {
       const body = await res.json();
       setActionError(body.error ?? "Delete failed.");
       return;

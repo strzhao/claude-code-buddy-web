@@ -214,6 +214,13 @@ export async function extractPreviewImage(
     return null;
   }
 
+  // Sanitize path components to prevent traversal within zip
+  const safeDir = manifest.sprite_directory.replace(/\.\./g, "").replace(/^\//, "");
+  const safeImage = manifest.preview_image.replace(/\.\./g, "").replace(/^\//, "");
+  if (!safeDir || !safeImage) {
+    return null;
+  }
+
   let zip: JSZip;
   try {
     zip = await JSZip.loadAsync(buffer);
@@ -221,7 +228,7 @@ export async function extractPreviewImage(
     return null;
   }
 
-  const previewPath = `${manifest.sprite_directory}/${manifest.preview_image}`;
+  const previewPath = `${safeDir}/${safeImage}`;
   const previewFile = zip.file(previewPath);
   if (!previewFile) {
     return null;
