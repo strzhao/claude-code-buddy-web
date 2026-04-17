@@ -1,0 +1,99 @@
+.env.example
+  37eda9763d07f3b8 1-3
+next.config.ts
+  37eda9763d07f3b8 1-7
+public/file.svg
+  37eda9763d07f3b8 1
+src/app/api/admin/skins/[id]/route.ts
+  37eda9763d07f3b8 1-21
+cli/src/index.ts
+  37eda9763d07f3b8 1-359
+.gitignore
+  37eda9763d07f3b8 1-46
+src/components/UploadForm.tsx
+  37eda9763d07f3b8 1-202
+CLAUDE.md
+  37eda9763d07f3b8 1
+src/lib/kv.ts
+  37eda9763d07f3b8 1-123
+src/app/globals.css
+  37eda9763d07f3b8 1-26
+src/components/AdminDashboard.tsx
+  37eda9763d07f3b8 1-318
+src/app/api/admin/skins/route.ts
+  37eda9763d07f3b8 1-22
+src/app/api/skins/route.ts
+  37eda9763d07f3b8 1-47
+eslint.config.mjs
+  37eda9763d07f3b8 1-18
+README.md
+  37eda9763d07f3b8 1-36
+public/window.svg
+  37eda9763d07f3b8 1
+src/components/StatusBadge.tsx
+  37eda9763d07f3b8 1-21
+src/lib/errors.ts
+  37eda9763d07f3b8 1-13
+src/app/layout.tsx
+  37eda9763d07f3b8 1-33
+src/lib/types.ts
+  37eda9763d07f3b8 1-66
+src/lib/validation.ts
+  37eda9763d07f3b8 1-236
+cli/package.json
+  37eda9763d07f3b8 1-17
+package.json
+  37eda9763d07f3b8 1-29
+src/app/page.tsx
+  37eda9763d07f3b8 1-82
+src/app/admin/page.tsx
+  37eda9763d07f3b8 1-10
+public/globe.svg
+  37eda9763d07f3b8 1
+src/app/api/admin/skins/[id]/reject/route.ts
+  37eda9763d07f3b8 1-35
+cli/tsconfig.json
+  37eda9763d07f3b8 1-13
+src/app/api/upload/route.ts
+  37eda9763d07f3b8 1-124
+src/lib/storage.ts
+  37eda9763d07f3b8 1-36
+public/next.svg
+  37eda9763d07f3b8 1
+tsconfig.json
+  37eda9763d07f3b8 1-34
+middleware.ts
+  37eda9763d07f3b8 1-13
+AGENTS.md
+  37eda9763d07f3b8 1-5
+src/app/upload/page.tsx
+  37eda9763d07f3b8 1-14
+public/vercel.svg
+  37eda9763d07f3b8 1
+src/app/api/admin/skins/[id]/approve/route.ts
+  37eda9763d07f3b8 1-31
+src/lib/constants.ts
+  37eda9763d07f3b8 1-12
+postcss.config.mjs
+  37eda9763d07f3b8 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "4c58839d88f39a20dcc23726cef75d2251ee03b9",
+  "prompts": {
+    "37eda9763d07f3b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "934e27df-0831-4911-bdcb-70dbcbfa3ecd",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 2065,
+      "total_deletions": 0,
+      "accepted_lines": 2065,
+      "overriden_lines": 0
+    }
+  }
+}
