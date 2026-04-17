@@ -17,6 +17,11 @@ export async function POST(request: NextRequest) {
   let manifestVersion = "";
 
   try {
+    const contentType = request.headers.get("content-type") ?? "";
+    if (!contentType.includes("multipart/form-data")) {
+      return errorResponse(400, "Expected multipart/form-data");
+    }
+
     const formData = await request.formData();
     const file = formData.get("file");
     const authorOverride = formData.get("author");
