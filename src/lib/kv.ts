@@ -9,7 +9,14 @@ import {
 } from "./constants";
 import type { SkinRecord, SkinStatus } from "./types";
 
-const redis = Redis.fromEnv(); // reads UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN
+let _redis: Redis | null = null;
+
+function redis(): Redis {
+  if (!_redis) {
+    _redis = Redis.fromEnv();
+  }
+  return _redis;
+}
 
 export function compositeKey(id: string, version: string): string {
   return `${id}:${version}`;
@@ -34,7 +41,7 @@ function statusIndex(status: SkinStatus | "all"): string {
 
 // Get a single skin record by composite key
 export async function getSkinRecord(ck: string): Promise<SkinRecord | null> {
-  return redis.get<SkinRecord>(kvKey(ck));
+  return redis().get<SkinRecord>(kvKey(ck));
 }
 
 // Create a skin record ONLY if it doesn't exist (NX).
@@ -43,13 +50,13 @@ export async function setSkinRecordNX(record: SkinRecord): Promise<boolean> {
   const ck = compositeKey(record.id, record.version);
   const key = kvKey(ck);
 
-  const result = await redis.set(key, record, { nx: true });
+  const result = await redis().set(key, record, { nx: true });
   // @upstash/redis returns "OK" on success, null when NX condition not met
   if (result === null) {
     return false;
   }
 
-  const pipe = redis.pipeline();
+  const pipe = redis().pipeline();
   pipe.sadd(REDIS_INDEX_ALL, ck);
   pipe.sadd(statusIndex(record.status), ck);
   await pipe.exec();
@@ -59,7 +66,7 @@ export async function setSkinRecordNX(record: SkinRecord): Promise<boolean> {
 
 // Delete a skin record + remove from all index sets
 export async function deleteSkinRecord(ck: string): Promise<void> {
-  const pipe = redis.pipeline();
+  const pipe = redis().pipeline();
   pipe.del(kvKey(ck));
   pipe.srem(REDIS_INDEX_ALL, ck);
   pipe.srem(REDIS_INDEX_PENDING, ck);
@@ -82,7 +89,7 @@ export async function moveSkinStatus(
 
   const updated: SkinRecord = { ...existing, ...updates, status: to };
 
-  const pipe = redis.pipeline();
+  const pipe = redis().pipeline();
   pipe.set(kvKey(ck), updated);
   pipe.srem(statusIndex(from), ck);
   pipe.sadd(statusIndex(to), ck);
@@ -95,12 +102,12 @@ export async function moveSkinStatus(
 export async function listSkinsByStatus(
   status: SkinStatus | "all",
 ): Promise<SkinRecord[]> {
-  const members = await redis.smembers(statusIndex(status));
+  const members = await redis().smembers(statusIndex(status));
   if (members.length === 0) {
     return [];
   }
 
-  const pipe = redis.pipeline();
+  const pipe = redis().pipeline();
   for (const ck of members) {
     pipe.get<SkinRecord>(kvKey(ck));
   }
@@ -118,6 +125,6 @@ export async function listSkinsByStatus(
 
 // Check if a record exists
 export async function skinExists(ck: string): Promise<boolean> {
-  const count = await redis.exists(kvKey(ck));
+  const count = await redis().exists(kvKey(ck));
   return count === 1;
 }
