@@ -1,0 +1,37 @@
+src/lib/validation.ts
+  37eda9763d07f3b8 217-223,231
+src/app/api/admin/skins/route.ts
+  37eda9763d07f3b8 3,8-10,12-15,17,19-21
+src/app/api/admin/skins/[id]/route.ts
+  37eda9763d07f3b8 9-11,13-16,18-19,21-24
+src/app/api/upload/route.ts
+  37eda9763d07f3b8 5,15-17,19-22,24-26,28-34,36,38-45,47-53,55-61,65-69,71-83,85-126
+src/components/AdminDashboard.tsx
+  37eda9763d07f3b8 99
+src/app/api/admin/skins/[id]/reject/route.ts
+  37eda9763d07f3b8 10-12,14-17,19-25,27-33,35-38,40-43
+src/app/api/skins/route.ts
+  37eda9763d07f3b8 4,21-22,24-34,37-39,41-48
+src/app/api/admin/skins/[id]/approve/route.ts
+  37eda9763d07f3b8 10-12,14-17,19-25,27-29,31-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "badeaba16d697c313c1b7b3f2787ab8360850ed4",
+  "prompts": {
+    "37eda9763d07f3b8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "934e27df-0831-4911-bdcb-70dbcbfa3ecd",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 537,
+      "total_deletions": 188,
+      "accepted_lines": 537,
+      "overriden_lines": 0
+    }
+  }
+}
