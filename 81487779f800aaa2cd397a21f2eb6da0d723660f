@@ -1,0 +1,47 @@
+src/app/api/auth/logout/route.ts
+  99d3d3025ed66184 1-26
+src/lib/__tests__/auth.acceptance.test.ts
+  99d3d3025ed66184 1-306
+src/app/admin/page.tsx
+  99d3d3025ed66184 2,4,10-15
+middleware.ts
+  99d3d3025ed66184 3,5-35
+src/app/api/auth/callback/route.ts
+  99d3d3025ed66184 1-134
+vitest.config.ts
+  99d3d3025ed66184 1-15
+src/app/api/auth/login/route.ts
+  99d3d3025ed66184 1-47
+src/lib/auth.ts
+  99d3d3025ed66184 1-183
+.env.example
+  99d3d3025ed66184 4-14
+src/components/AdminDashboard.tsx
+  99d3d3025ed66184 20-24,114-135
+package.json
+  99d3d3025ed66184 14,27,31-32
+src/__tests__/middleware.acceptance.test.ts
+  99d3d3025ed66184 1-286
+src/__tests__/auth-routes.acceptance.test.ts
+  99d3d3025ed66184 1-254
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "81487779f800aaa2cd397a21f2eb6da0d723660f",
+  "prompts": {
+    "99d3d3025ed66184": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b608a9c3-edd1-44d7-bbd6-05784709bd19",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 1760,
+      "total_deletions": 440,
+      "accepted_lines": 1333,
+      "overriden_lines": 0
+    }
+  }
+}
