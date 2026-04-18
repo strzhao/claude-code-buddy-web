@@ -8,26 +8,26 @@
 
 /* --- Raw palette constants (never used directly in components) --- */
 :root {
-  --palette-ink: #1A1A18;
-  --palette-paper: #F7F6F1;
-  --palette-mist: #EBEBEA;
-  --palette-smoke: #8F8F8D;
+  --palette-ink: #1a1a18;
+  --palette-paper: #f7f6f1;
+  --palette-mist: #ebebea;
+  --palette-smoke: #8f8f8d;
   --palette-charcoal: #595957;
-  --palette-sage: #3A7D68;
-  --palette-sage-light: #52A688;
-  --palette-sage-mist: #E8F2EE;
-  --palette-amber: #D4920A;
-  --palette-vermillion: #D94F3D;
-  --palette-sky: #3B87CC;
+  --palette-sage: #3a7d68;
+  --palette-sage-light: #52a688;
+  --palette-sage-mist: #e8f2ee;
+  --palette-amber: #d4920a;
+  --palette-vermillion: #d94f3d;
+  --palette-sky: #3b87cc;
 }
 
 /* --- Light theme (default) --- */
 :root {
   /* Backgrounds */
   --color-canvas: var(--palette-paper);
-  --color-surface: #FFFFFF;
+  --color-surface: #ffffff;
   --color-surface-alt: var(--palette-mist);
-  --color-surface-raised: #FFFFFF;
+  --color-surface-raised: #ffffff;
 
   /* Text */
   --color-ink: var(--palette-ink);
@@ -40,31 +40,31 @@
   --color-primary: var(--palette-sage);
   --color-primary-hover: var(--palette-sage-light);
   --color-primary-mist: var(--palette-sage-mist);
-  --color-primary-text: #FFFFFF;
+  --color-primary-text: #ffffff;
 
   /* Semantic: Success */
-  --color-success: #2D8659;
-  --color-success-light: #DCFCE7;
+  --color-success: #2d8659;
+  --color-success-light: #dcfce7;
   --color-success-text: #166534;
 
   /* Semantic: Warning */
   --color-warning: var(--palette-amber);
-  --color-warning-light: #FEF3C7;
-  --color-warning-text: #92400E;
+  --color-warning-light: #fef3c7;
+  --color-warning-text: #92400e;
 
   /* Semantic: Error */
   --color-error: var(--palette-vermillion);
-  --color-error-light: #FEE2E2;
-  --color-error-text: #991B1B;
+  --color-error-light: #fee2e2;
+  --color-error-text: #991b1b;
 
   /* Semantic: Info */
   --color-info: var(--palette-sky);
-  --color-info-light: #DBEAFE;
-  --color-info-text: #1E40AF;
+  --color-info-light: #dbeafe;
+  --color-info-text: #1e40af;
 
   /* Borders */
   --color-border: var(--palette-mist);
-  --color-border-strong: #D4D4D3;
+  --color-border-strong: #d4d4d3;
   --color-border-pixel: var(--palette-ink);
 
   /* Shadows */
@@ -76,45 +76,45 @@
 
 /* --- Dark theme --- */
 .dark {
-  --color-canvas: #0F0F0E;
-  --color-surface: #1C1C1A;
+  --color-canvas: #0f0f0e;
+  --color-surface: #1c1c1a;
   --color-surface-alt: #252523;
   --color-surface-raised: #222220;
 
-  --color-ink: #EDECE7;
-  --color-secondary: #A8A8A6;
-  --color-muted: #6E6E6C;
-  --color-placeholder: #5A5A58;
-  --color-inverse: #0F0F0E;
+  --color-ink: #edece7;
+  --color-secondary: #a8a8a6;
+  --color-muted: #6e6e6c;
+  --color-placeholder: #5a5a58;
+  --color-inverse: #0f0f0e;
 
-  --color-primary: #52A688;
-  --color-primary-hover: #6BBF9F;
-  --color-primary-mist: #1A2E27;
-  --color-primary-text: #0F0F0E;
+  --color-primary: #52a688;
+  --color-primary-hover: #6bbf9f;
+  --color-primary-mist: #1a2e27;
+  --color-primary-text: #0f0f0e;
 
-  --color-success: #4ADE80;
-  --color-success-light: #0D2818;
-  --color-success-text: #4ADE80;
+  --color-success: #4ade80;
+  --color-success-light: #0d2818;
+  --color-success-text: #4ade80;
 
-  --color-warning: #FBBF24;
-  --color-warning-light: #2A2008;
-  --color-warning-text: #FBBF24;
+  --color-warning: #fbbf24;
+  --color-warning-light: #2a2008;
+  --color-warning-text: #fbbf24;
 
-  --color-error: #F87171;
-  --color-error-light: #2A0E0E;
-  --color-error-text: #F87171;
+  --color-error: #f87171;
+  --color-error-light: #2a0e0e;
+  --color-error-text: #f87171;
 
-  --color-info: #60A5FA;
-  --color-info-light: #0E1B2D;
-  --color-info-text: #60A5FA;
+  --color-info: #60a5fa;
+  --color-info-light: #0e1b2d;
+  --color-info-text: #60a5fa;
 
-  --color-border: #2A2A28;
-  --color-border-strong: #3A3A38;
-  --color-border-pixel: #EDECE7;
+  --color-border: #2a2a28;
+  --color-border-strong: #3a3a38;
+  --color-border-pixel: #edece7;
 
   --color-shadow-pixel: #000000;
 
-  --color-focus: #52A688;
+  --color-focus: #52a688;
 }
 
 /* --- Tailwind v4 theme integration --- */
@@ -160,6 +160,9 @@
 
   --color-shadow-pixel: var(--color-shadow-pixel);
   --color-focus: var(--color-focus);
+
+  --animate-pixel-entrance: pixel-entrance 0.4s ease-out both;
+  --animate-pixel-shimmer: pixel-shimmer 1.5s linear infinite;
 }
 
 /* --- Base styles --- */
@@ -209,7 +212,7 @@ body {
 }
 .pixel-corners::before,
 .pixel-corners::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 8px;
   height: 8px;
@@ -252,4 +255,37 @@ body {
 .pixel-divider {
   border: none;
   border-top: 2px dashed var(--color-border);
+}
+
+/* ===================================================================
+   Animations
+   =================================================================== */
+
+@keyframes pixel-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pixel-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Section entrance — applied when .in-view is added by IntersectionObserver */
+.section-animate {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.section-animate.in-view {
+  animation: pixel-entrance 0.4s ease-out both;
 }
