@@ -1,0 +1,73 @@
+__tests__/lib/constants.test.ts
+  db6865eaeffca267 1-43
+commitlint.config.js
+  db6865eaeffca267 1-2
+src/app/error.tsx
+  db6865eaeffca267 1-30
+.github/workflows/ci.yml
+  db6865eaeffca267 1-73
+__tests__/components/StatusBadge.test.tsx
+  db6865eaeffca267 1-38
+e2e/performance.spec.ts
+  db6865eaeffca267 1-35
+__tests__/lib/validation.test.ts
+  db6865eaeffca267 1-159
+src/__mocks__/storage.ts
+  db6865eaeffca267 1-7
+vitest.config.mts
+  db6865eaeffca267 1-13
+.husky/commit-msg
+  db6865eaeffca267 1
+CLAUDE.md
+  db6865eaeffca267 2-78
+.husky/pre-commit
+  db6865eaeffca267 1
+middleware.ts
+  db6865eaeffca267 3
+.gitignore
+  db6865eaeffca267 15-17
+.prettierrc.json
+  db6865eaeffca267 1-7
+playwright.config.ts
+  db6865eaeffca267 1-25
+README.md
+  db6865eaeffca267 1,3,5-28,31-38,42,44,46-50,52,54-61,63,65,67,69
+.lintstagedrc.json
+  db6865eaeffca267 1-4
+src/components/AdminDashboard.tsx
+  db6865eaeffca267 48-78,99,117,134-135,242,248,260,315
+__tests__/api/skins.test.ts
+  db6865eaeffca267 1-101
+e2e/smoke.spec.ts
+  db6865eaeffca267 1-24
+src/app/global-error.tsx
+  db6865eaeffca267 1-28
+.size-limit.json
+  db6865eaeffca267 1-6
+src/__mocks__/kv.ts
+  db6865eaeffca267 1-15
+__tests__/api/upload.test.ts
+  db6865eaeffca267 1-177
+package.json
+  db6865eaeffca267 9-17,25-26,29-32,34-35,39-40,43-47,49-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "1a7945a043e206cbe9ac3e29bb6c5dc7b05e4aa7",
+  "prompts": {
+    "db6865eaeffca267": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "68f8dac0-31bb-4d35-9793-ac68b75b6160",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 1103,
+      "total_deletions": 122,
+      "accepted_lines": 1041,
+      "overriden_lines": 0
+    }
+  }
+}
