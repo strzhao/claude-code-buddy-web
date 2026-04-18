@@ -1,0 +1,65 @@
+src/components/ThemeProvider.tsx
+  a313e81090ed2fa8 1-48
+src/components/landing/FeatureCard.tsx
+  a313e81090ed2fa8 1-19
+src/components/landing/engine/CatEntity.ts
+  a313e81090ed2fa8 1-475
+src/components/landing/PixiScene.tsx
+  a313e81090ed2fa8 1-71
+src/components/landing/Footer.tsx
+  a313e81090ed2fa8 1-44
+src/components/ThemeToggle.tsx
+  a313e81090ed2fa8 1-17
+src/components/landing/CodeBlock.tsx
+  a313e81090ed2fa8 1-36
+src/components/landing/engine/types.ts
+  a313e81090ed2fa8 1-31
+src/components/landing/HeroSection.tsx
+  a313e81090ed2fa8 1-50
+src/components/landing/ScrollReveal.tsx
+  a313e81090ed2fa8 1-31
+src/app/globals.css
+  a313e81090ed2fa8 3-9,11-21,24-120,125-165,168,170-280
+src/components/landing/engine/FoodEntity.ts
+  a313e81090ed2fa8 1-70
+src/components/landing/SkinCard.tsx
+  a313e81090ed2fa8 1-26
+src/app/layout.tsx
+  a313e81090ed2fa8 3,17-19,29,31,33-42
+src/components/landing/engine/SpriteLoader.ts
+  a313e81090ed2fa8 1-51
+src/components/landing/SkinsSection.tsx
+  a313e81090ed2fa8 1-52
+src/components/landing/FeaturesSection.tsx
+  a313e81090ed2fa8 1-87
+package.json
+  a313e81090ed2fa8 16
+src/app/page.tsx
+  a313e81090ed2fa8 1-7,11-31
+src/components/landing/InstallSection.tsx
+  a313e81090ed2fa8 1-45
+src/components/landing/engine/InputHandler.ts
+  a313e81090ed2fa8 1-59
+src/components/landing/engine/SceneEngine.ts
+  a313e81090ed2fa8 1-177
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "5b37e64e7271297fe6fe4dcc6766e02d6c5b6e6a",
+  "prompts": {
+    "a313e81090ed2fa8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d529b136-1bfc-48f8-b90d-1307df7c4019",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 1866,
+      "total_deletions": 258,
+      "accepted_lines": 1702,
+      "overriden_lines": 0
+    }
+  }
+}
