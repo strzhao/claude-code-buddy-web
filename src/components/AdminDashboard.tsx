@@ -45,8 +45,37 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    fetchSkins(activeTab);
-  }, [activeTab, fetchSkins]);
+    let cancelled = false;
+    const load = async () => {
+      if (!cancelled) {
+        setLoading(true);
+        setActionError(null);
+      }
+      try {
+        const res = await fetch(`/api/admin/skins?status=${activeTab}`);
+        if (cancelled) return;
+        if (!res.ok) {
+          const body = await res.json();
+          setActionError(body.error ?? "Failed to load skins.");
+          setSkins([]);
+        } else {
+          const data = (await res.json()) as SkinRecord[];
+          setSkins(data);
+        }
+      } catch {
+        if (!cancelled) {
+          setActionError("Network error loading skins.");
+          setSkins([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTab]);
 
   function switchTab(tab: TabValue) {
     setActiveTab(tab);
@@ -67,10 +96,7 @@ export default function AdminDashboard() {
   }
 
   async function handleReject(skin: SkinRecord) {
-    const reason = window.prompt(
-      `Rejection reason for "${skin.name}" (optional):`,
-      ""
-    );
+    const reason = window.prompt(`Rejection reason for "${skin.name}" (optional):`, "");
     if (reason === null) return; // cancelled
     const ck = encodeURIComponent(compositeKey(skin.id, skin.version));
     const res = await fetch(`/api/admin/skins/${ck}/reject`, {
@@ -88,9 +114,7 @@ export default function AdminDashboard() {
 
   async function handleDelete(skin: SkinRecord) {
     if (
-      !window.confirm(
-        `Delete "${skin.name}" v${skin.version} permanently? This cannot be undone.`
-      )
+      !window.confirm(`Delete "${skin.name}" v${skin.version} permanently? This cannot be undone.`)
     ) {
       return;
     }
@@ -219,19 +243,13 @@ function SkinCard({ skin, onApprove, onReject, onDelete }: SkinCardProps) {
               </span>
             </span>
             <span>
-              Animations:{" "}
-              <span className="font-mono">
-                {skin.manifest.animation_names.length}
-              </span>
+              Animations: <span className="font-mono">{skin.manifest.animation_names.length}</span>
             </span>
             <span>
               ID: <span className="font-mono">{skin.id}</span>
             </span>
             <span>
-              Size:{" "}
-              <span className="font-mono">
-                {(skin.size / 1024).toFixed(1)} KB
-              </span>
+              Size: <span className="font-mono">{(skin.size / 1024).toFixed(1)} KB</span>
             </span>
             <span>
               Submitted:{" "}
@@ -300,14 +318,7 @@ function Spinner() {
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
         className="opacity-75"
         fill="currentColor"
