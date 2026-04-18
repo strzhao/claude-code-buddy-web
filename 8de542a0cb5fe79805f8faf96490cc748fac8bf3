@@ -1,0 +1,47 @@
+src/components/ThemeToggle.tsx
+  5a61e336e76bf424 1-50
+CLAUDE.md
+  5a61e336e76bf424 2-75
+package.json
+  5a61e336e76bf424 3
+src/app/globals.css
+  5a61e336e76bf424 3-9,11-21,24-120,125-162,165,167-254
+src/components/ThemeProvider.tsx
+  5a61e336e76bf424 1-57
+src/app/page.tsx
+  5a61e336e76bf424 5,13,17,27,30,33,37,44,47-48,52,61,64-65,70,76
+src/components/AdminDashboard.tsx
+  5a61e336e76bf424 108,110,113,118,125-126,136,149,157,190,199,207,209,211,214,246,254,256,259,266,271,277,285,297
+src/app/upload/page.tsx
+  5a61e336e76bf424 10
+src/app/colors/page.tsx
+  5a61e336e76bf424 1-11
+src/components/StatusBadge.tsx
+  5a61e336e76bf424 4-6,16
+src/components/UploadForm.tsx
+  5a61e336e76bf424 78-79,82,84,94,96,105,113,116,126,134,149-150,153,163-164,167
+src/app/layout.tsx
+  5a61e336e76bf424 3,5-6,31,34-42
+src/components/ColorsShowcase.tsx
+  5a61e336e76bf424 1-444
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "8de542a0cb5fe79805f8faf96490cc748fac8bf3",
+  "prompts": {
+    "5a61e336e76bf424": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3d67cd7-f5d8-4f7d-a73d-ee155561d31c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 973,
+      "total_deletions": 96,
+      "accepted_lines": 954,
+      "overriden_lines": 0
+    }
+  }
+}
