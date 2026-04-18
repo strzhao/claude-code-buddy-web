@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+    <main className="min-h-screen bg-canvas flex items-center justify-center p-6">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="mb-8">
@@ -10,11 +10,11 @@ export default function Home() {
             <span className="text-3xl" aria-hidden>
               🐱
             </span>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-2xl font-semibold text-ink pixel-heading">
               Claude Code Buddy
             </h1>
           </div>
-          <p className="text-sm text-gray-500 leading-relaxed">
+          <p className="text-sm text-muted leading-relaxed">
             Skin Store — upload, review, and distribute custom sprite packs for
             the Claude Code Buddy macOS app.
           </p>
@@ -24,32 +24,32 @@ export default function Home() {
         <div className="space-y-3">
           <Link
             href="/upload"
-            className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-5 py-4 shadow-sm transition-colors hover:border-blue-300 hover:bg-blue-50 group"
+            className="flex items-center justify-between rounded pixel-border pixel-shadow-sm pixel-btn-active bg-surface px-5 py-4 transition-colors hover:border-primary hover:bg-primary-mist group"
           >
             <div>
-              <p className="font-medium text-gray-900 group-hover:text-blue-700">
+              <p className="font-medium text-ink group-hover:text-primary">
                 Upload Skin Pack
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted">
                 Submit a .zip file for review
               </p>
             </div>
-            <span className="text-gray-300 group-hover:text-blue-400 text-lg">
+            <span className="text-muted group-hover:text-primary-hover text-lg">
               →
             </span>
           </Link>
 
           <Link
             href="/admin"
-            className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-5 py-4 shadow-sm transition-colors hover:border-gray-400 hover:bg-gray-50 group"
+            className="flex items-center justify-between rounded pixel-border pixel-shadow-sm pixel-btn-active bg-surface px-5 py-4 transition-colors hover:border-border-strong hover:bg-surface-alt group"
           >
             <div>
-              <p className="font-medium text-gray-900">Admin Dashboard</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-medium text-ink">Admin Dashboard</p>
+              <p className="text-sm text-muted">
                 Approve, reject, or delete submissions
               </p>
             </div>
-            <span className="text-gray-300 group-hover:text-gray-500 text-lg">
+            <span className="text-muted group-hover:text-secondary text-lg">
               →
             </span>
           </Link>
@@ -58,22 +58,22 @@ export default function Home() {
             href="/api/skins"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-5 py-4 shadow-sm transition-colors hover:border-gray-400 hover:bg-gray-50 group"
+            className="flex items-center justify-between rounded pixel-border pixel-shadow-sm pixel-btn-active bg-surface px-5 py-4 transition-colors hover:border-border-strong hover:bg-surface-alt group"
           >
             <div>
-              <p className="font-medium text-gray-900">Public Catalog API</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-medium text-ink">Public Catalog API</p>
+              <p className="text-sm text-muted">
                 <code className="font-mono text-xs">GET /api/skins</code> —
                 approved skins JSON feed
               </p>
             </div>
-            <span className="text-gray-300 group-hover:text-gray-500 text-lg">
+            <span className="text-muted group-hover:text-secondary text-lg">
               ↗
             </span>
           </a>
         </div>
 
-        <p className="mt-8 text-center text-xs text-gray-400">
+        <p className="mt-8 text-center text-xs text-muted">
           Skin packs must pass validation before appearing in the store.
         </p>
       </div>

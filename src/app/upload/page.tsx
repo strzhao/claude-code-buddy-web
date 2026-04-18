@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function UploadPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+    <main className="min-h-screen flex items-center justify-center p-4 bg-canvas">
       <UploadForm />
     </main>
   );
