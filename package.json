@@ -17,6 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@stringzhao/auth-sdk": "^0.1.1",
     "@upstash/redis": "^1.37.0",
     "@vercel/blob": "^2.3.3",
     "jszip": "^3.10.1",
