@@ -17,7 +17,11 @@ function compositeKey(id: string, version: string) {
   return `${id}:${version}`;
 }
 
-export default function AdminDashboard() {
+interface AdminDashboardProps {
+  userEmail: string;
+}
+
+export default function AdminDashboard({ userEmail }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabValue>("pending");
   const [skins, setSkins] = useState<SkinRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -107,12 +111,28 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="mx-auto max-w-5xl">
-        <h1 className="mb-1 text-2xl font-semibold text-gray-900">
-          Admin Dashboard
-        </h1>
-        <p className="mb-6 text-sm text-gray-500">
-          Review and manage submitted skin packs.
-        </p>
+        {/* Header row */}
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="mb-1 text-2xl font-semibold text-gray-900">
+              Admin Dashboard
+            </h1>
+            <p className="text-sm text-gray-500">
+              Review and manage submitted skin packs.
+            </p>
+          </div>
+          {userEmail && (
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <span className="text-sm text-gray-500">{userEmail}</span>
+              <a
+                href="/api/auth/logout"
+                className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:border-gray-400 hover:text-gray-800"
+              >
+                登出
+              </a>
+            </div>
+          )}
+        </div>
 
         {/* Tab bar */}
         <div className="mb-6 flex gap-0 rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden w-fit">
