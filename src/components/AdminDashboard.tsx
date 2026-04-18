@@ -45,8 +45,37 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    fetchSkins(activeTab);
-  }, [activeTab, fetchSkins]);
+    let cancelled = false;
+    const load = async () => {
+      if (!cancelled) {
+        setLoading(true);
+        setActionError(null);
+      }
+      try {
+        const res = await fetch(`/api/admin/skins?status=${activeTab}`);
+        if (cancelled) return;
+        if (!res.ok) {
+          const body = await res.json();
+          setActionError(body.error ?? "Failed to load skins.");
+          setSkins([]);
+        } else {
+          const data = (await res.json()) as SkinRecord[];
+          setSkins(data);
+        }
+      } catch {
+        if (!cancelled) {
+          setActionError("Network error loading skins.");
+          setSkins([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTab]);
 
   function switchTab(tab: TabValue) {
     setActiveTab(tab);
@@ -67,10 +96,7 @@ export default function AdminDashboard() {
   }
 
   async function handleReject(skin: SkinRecord) {
-    const reason = window.prompt(
-      `Rejection reason for "${skin.name}" (optional):`,
-      ""
-    );
+    const reason = window.prompt(`Rejection reason for "${skin.name}" (optional):`, "");
     if (reason === null) return; // cancelled
     const ck = encodeURIComponent(compositeKey(skin.id, skin.version));
     const res = await fetch(`/api/admin/skins/${ck}/reject`, {
@@ -88,9 +114,7 @@ export default function AdminDashboard() {
 
   async function handleDelete(skin: SkinRecord) {
     if (
-      !window.confirm(
-        `Delete "${skin.name}" v${skin.version} permanently? This cannot be undone.`
-      )
+      !window.confirm(`Delete "${skin.name}" v${skin.version} permanently? This cannot be undone.`)
     ) {
       return;
     }
@@ -107,12 +131,8 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="mx-auto max-w-5xl">
-        <h1 className="mb-1 text-2xl font-semibold text-gray-900">
-          Admin Dashboard
-        </h1>
-        <p className="mb-6 text-sm text-gray-500">
-          Review and manage submitted skin packs.
-        </p>
+        <h1 className="mb-1 text-2xl font-semibold text-gray-900">Admin Dashboard</h1>
+        <p className="mb-6 text-sm text-gray-500">Review and manage submitted skin packs.</p>
 
         {/* Tab bar */}
         <div className="mb-6 flex gap-0 rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden w-fit">
@@ -219,19 +239,13 @@ function SkinCard({ skin, onApprove, onReject, onDelete }: SkinCardProps) {
               </span>
             </span>
             <span>
-              Animations:{" "}
-              <span className="font-mono">
-                {skin.manifest.animation_names.length}
-              </span>
+              Animations: <span className="font-mono">{skin.manifest.animation_names.length}</span>
             </span>
             <span>
               ID: <span className="font-mono">{skin.id}</span>
             </span>
             <span>
-              Size:{" "}
-              <span className="font-mono">
-                {(skin.size / 1024).toFixed(1)} KB
-              </span>
+              Size: <span className="font-mono">{(skin.size / 1024).toFixed(1)} KB</span>
             </span>
             <span>
               Submitted:{" "}
@@ -243,9 +257,7 @@ function SkinCard({ skin, onApprove, onReject, onDelete }: SkinCardProps) {
             </span>
           </div>
           {skin.rejection_reason && (
-            <p className="mt-1 text-xs text-red-600">
-              Reason: {skin.rejection_reason}
-            </p>
+            <p className="mt-1 text-xs text-red-600">Reason: {skin.rejection_reason}</p>
           )}
         </div>
       </div>
@@ -300,14 +312,7 @@ function Spinner() {
       viewBox="0 0 24 24"
       aria-hidden="true"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
         className="opacity-75"
         fill="currentColor"
