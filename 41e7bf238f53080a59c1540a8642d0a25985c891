@@ -1,0 +1,76 @@
+playwright.config.ts
+  db6865eaeffca267 1-25
+src/components/AdminDashboard.tsx
+  db6865eaeffca267 48-78,99,117,246,252,321
+.lintstagedrc.json
+  db6865eaeffca267 1-4
+.prettierrc.json
+  db6865eaeffca267 1-7
+e2e/performance.spec.ts
+  db6865eaeffca267 1-35
+README.md
+  db6865eaeffca267 1,3,5-28,31-38,42,44,46-50,52,54-61,63,65,67,69
+commitlint.config.js
+  db6865eaeffca267 1-2
+vitest.config.mts
+  db6865eaeffca267 1-13
+__tests__/api/upload.test.ts
+  db6865eaeffca267 1-177
+.husky/pre-commit
+  db6865eaeffca267 1
+middleware.ts
+  db6865eaeffca267 3
+e2e/smoke.spec.ts
+  db6865eaeffca267 1-24
+src/__mocks__/kv.ts
+  db6865eaeffca267 1-15
+CLAUDE.md
+  db6865eaeffca267 77-152
+.husky/commit-msg
+  db6865eaeffca267 1
+.gitignore
+  db6865eaeffca267 15-17
+package.json
+  db6865eaeffca267 9-17,25-26,29-32,34-35,39-40,43-47,49-51
+.github/workflows/ci.yml
+  db6865eaeffca267 1-73
+__tests__/lib/constants.test.ts
+  db6865eaeffca267 1-43
+__tests__/components/StatusBadge.test.tsx
+  db6865eaeffca267 1-38
+__tests__/api/skins.test.ts
+  db6865eaeffca267 1-101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "41e7bf238f53080a59c1540a8642d0a25985c891",
+  "prompts": {
+    "5a61e336e76bf424": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f3d67cd7-f5d8-4f7d-a73d-ee155561d31c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 99,
+      "overriden_lines": 0
+    },
+    "db6865eaeffca267": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "68f8dac0-31bb-4d35-9793-ac68b75b6160",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 762,
+      "overriden_lines": 0
+    }
+  }
+}
