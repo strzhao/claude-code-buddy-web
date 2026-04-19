@@ -31,22 +31,14 @@ export async function POST(request: NextRequest) {
     }
 
     if (file.size > MAX_UPLOAD_SIZE) {
-      return errorResponse(
-        413,
-        "File too large",
-        `Max ${MAX_UPLOAD_SIZE} bytes`
-      );
+      return errorResponse(413, "File too large", `Max ${MAX_UPLOAD_SIZE} bytes`);
     }
 
     const buffer = await file.arrayBuffer();
 
     const validationResult = await validateSkinZip(buffer);
     if (!validationResult.valid) {
-      return errorResponse(
-        400,
-        "Validation failed",
-        validationResult.errors.join("; ")
-      );
+      return errorResponse(400, "Validation failed", validationResult.errors.join("; "));
     }
 
     const manifest = validationResult.manifest!;
@@ -60,30 +52,18 @@ export async function POST(request: NextRequest) {
     const ck = compositeKey(manifest.id, manifest.version);
     const exists = await skinExists(ck);
     if (exists) {
-      return errorResponse(
-        409,
-        "Skin already exists",
-        `${manifest.id}:${manifest.version}`
-      );
+      return errorResponse(409, "Skin already exists", `${manifest.id}:${manifest.version}`);
     }
 
     // Upload blob — track for cleanup on subsequent failure
-    const blob_url = await uploadSkinZip(
-      manifest.id,
-      manifest.version,
-      Buffer.from(buffer)
-    );
+    const blob_url = await uploadSkinZip(manifest.id, manifest.version, Buffer.from(buffer));
     blobUploaded = true;
 
     let preview_blob_url: string | null = null;
     if (manifest.preview_image) {
       const previewBuffer = await extractPreviewImage(buffer, manifest);
       if (previewBuffer) {
-        preview_blob_url = await uploadPreviewImage(
-          manifest.id,
-          manifest.version,
-          previewBuffer
-        );
+        preview_blob_url = await uploadPreviewImage(manifest.id, manifest.version, previewBuffer);
       }
     }
 
@@ -106,11 +86,7 @@ export async function POST(request: NextRequest) {
     if (!created) {
       // Race condition: another request created the record first — clean up our blob
       await deleteSkinBlobs(manifest.id, manifest.version).catch(() => {});
-      return errorResponse(
-        409,
-        "Skin already exists",
-        `${manifest.id}:${manifest.version}`
-      );
+      return errorResponse(409, "Skin already exists", `${manifest.id}:${manifest.version}`);
     }
 
     const uploadResponse: UploadResponse = {
@@ -123,7 +99,8 @@ export async function POST(request: NextRequest) {
     };
 
     return NextResponse.json(uploadResponse, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error("[upload] error:", err instanceof Error ? err.message : err);
     // Clean up orphaned blob if upload succeeded but KV write failed
     if (blobUploaded && manifestId && manifestVersion) {
       await deleteSkinBlobs(manifestId, manifestVersion).catch(() => {});

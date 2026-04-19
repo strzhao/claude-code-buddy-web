@@ -1,10 +1,14 @@
 {
   "name": "claude-code-buddy-skin-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CLI tool for uploading skin packs to Claude Code Buddy store",
   "type": "module",
-  "bin": { "buddy-skin": "./dist/index.js" },
-  "scripts": { "build": "tsc" },
+  "bin": {
+    "buddy-skin": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "archiver": "^7.0.0",
     "commander": "^12.0.0"

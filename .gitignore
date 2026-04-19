@@ -47,3 +47,4 @@ next-env.d.ts
 # cli
 /cli/node_modules
 /cli/dist
+.env*.local

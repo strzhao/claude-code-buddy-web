@@ -8,9 +8,7 @@ export interface ValidationResult {
   errors: string[];
 }
 
-export async function validateSkinZip(
-  buffer: ArrayBuffer
-): Promise<ValidationResult> {
+export async function validateSkinZip(buffer: ArrayBuffer): Promise<ValidationResult> {
   const errors: string[] = [];
 
   // Step 1: Parse zip
@@ -63,9 +61,7 @@ export async function validateSkinZip(
   for (const field of requiredArrayFields) {
     const value = manifest[field];
     if (!Array.isArray(value) || value.length === 0) {
-      errors.push(
-        `manifest.json missing or empty required array field: ${field}`
-      );
+      errors.push(`manifest.json missing or empty required array field: ${field}`);
     }
   }
 
@@ -79,9 +75,7 @@ export async function validateSkinZip(
     canvas_size[0] <= 0 ||
     canvas_size[1] <= 0
   ) {
-    errors.push(
-      "manifest.json canvas_size must be a 2-element array of positive numbers"
-    );
+    errors.push("manifest.json canvas_size must be a 2-element array of positive numbers");
   }
 
   // Step 7: menu_bar object validation
@@ -98,9 +92,7 @@ export async function validateSkinZip(
     for (const field of requiredMenuBarStrings) {
       const value = menu_bar[field];
       if (typeof value !== "string" || value.trim() === "") {
-        errors.push(
-          `manifest.json menu_bar missing or empty required field: ${field}`
-        );
+        errors.push(`manifest.json menu_bar missing or empty required field: ${field}`);
       }
     }
 
@@ -109,9 +101,7 @@ export async function validateSkinZip(
       !Number.isInteger(menu_bar.walk_frame_count) ||
       menu_bar.walk_frame_count <= 0
     ) {
-      errors.push(
-        "manifest.json menu_bar.walk_frame_count must be a positive integer"
-      );
+      errors.push("manifest.json menu_bar.walk_frame_count must be a positive integer");
     }
 
     if (
@@ -119,9 +109,7 @@ export async function validateSkinZip(
       !Number.isInteger(menu_bar.run_frame_count) ||
       menu_bar.run_frame_count <= 0
     ) {
-      errors.push(
-        "manifest.json menu_bar.run_frame_count must be a positive integer"
-      );
+      errors.push("manifest.json menu_bar.run_frame_count must be a positive integer");
     }
   }
 
@@ -140,15 +128,51 @@ export async function validateSkinZip(
   const idPattern = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/i;
   if (!idPattern.test(manifest.id)) {
     errors.push(
-      "manifest.json id must match pattern: letters, digits, hyphens (no leading/trailing hyphens)"
+      "manifest.json id must match pattern: letters, digits, hyphens (no leading/trailing hyphens)",
     );
   }
 
   const versionPattern = /^\d+\.\d+\.\d+$/;
   if (!versionPattern.test(manifest.version)) {
-    errors.push(
-      "manifest.json version must match semver pattern: X.Y.Z (digits only)"
-    );
+    errors.push("manifest.json version must match semver pattern: X.Y.Z (digits only)");
+  }
+
+  // Step 9.5: Validate variants (optional field)
+  if (manifest.variants !== undefined) {
+    if (!Array.isArray(manifest.variants)) {
+      errors.push("manifest.json variants must be an array if provided");
+    } else {
+      const variantIds = new Set<string>();
+      for (const variant of manifest.variants) {
+        const hasId = typeof variant.id === "string" && variant.id.trim() !== "";
+        const hasName = typeof variant.name === "string" && variant.name.trim() !== "";
+        const hasPrefix =
+          typeof variant.sprite_prefix === "string" && variant.sprite_prefix.trim() !== "";
+
+        if (!hasId) errors.push("variant missing required field: id");
+        if (!hasName) errors.push("variant missing required field: name");
+        if (!hasPrefix) errors.push("variant missing required field: sprite_prefix");
+
+        if (!hasId || !hasPrefix) continue;
+
+        if (variantIds.has(variant.id)) {
+          errors.push(`duplicate variant id: ${variant.id}`);
+        }
+        variantIds.add(variant.id);
+
+        // Validate that at least the idle sprite exists for this variant
+        const variantSpritePath = `${manifest.sprite_directory}/${variant.sprite_prefix}-idle-a-1.png`;
+        if (!zip.file(variantSpritePath)) {
+          errors.push(`Variant "${variant.id}" key sprite not found: ${variantSpritePath}`);
+        }
+
+        if (variant.bed_names !== undefined) {
+          if (!Array.isArray(variant.bed_names) || variant.bed_names.length === 0) {
+            errors.push(`variant "${variant.id}" bed_names must be a non-empty array if provided`);
+          }
+        }
+      }
+    }
   }
 
   // Step 10: Zip bomb protection
@@ -174,13 +198,8 @@ export async function validateSkinZip(
       uncompressedSize = fileData.uncompressedSize;
       compressedSize = fileData.compressedSize;
 
-      if (
-        compressedSize > 0 &&
-        uncompressedSize / compressedSize > ZIP_BOMB_RATIO
-      ) {
-        errors.push(
-          `Zip bomb detected: file "${filename}" has suspicious compression ratio`
-        );
+      if (compressedSize > 0 && uncompressedSize / compressedSize > ZIP_BOMB_RATIO) {
+        errors.push(`Zip bomb detected: file "${filename}" has suspicious compression ratio`);
         return { valid: false, errors };
       }
     } else {
@@ -192,9 +211,7 @@ export async function validateSkinZip(
     totalUncompressedSize += uncompressedSize;
 
     if (totalUncompressedSize > MAX_UNCOMPRESSED_SIZE) {
-      errors.push(
-        `Total uncompressed size exceeds limit of ${MAX_UNCOMPRESSED_SIZE} bytes`
-      );
+      errors.push(`Total uncompressed size exceeds limit of ${MAX_UNCOMPRESSED_SIZE} bytes`);
       return { valid: false, errors };
     }
   }
@@ -208,7 +225,7 @@ export async function validateSkinZip(
 
 export async function extractPreviewImage(
   buffer: ArrayBuffer,
-  manifest: SkinPackManifest
+  manifest: SkinPackManifest,
 ): Promise<Buffer | null> {
   if (!manifest.preview_image) {
     return null;

@@ -8,6 +8,15 @@ export interface MenuBarConfig {
   directory: string;
 }
 
+// Mirrors Swift SkinVariant (SkinPackManifest.swift) — optional color variant
+export interface SkinVariant {
+  id: string;
+  name: string;
+  sprite_prefix: string;
+  preview_image?: string;
+  bed_names?: string[];
+}
+
 // Mirrors Swift SkinPackManifest (SkinPackManifest.swift) — snake_case keys
 export interface SkinPackManifest {
   id: string;
@@ -24,6 +33,7 @@ export interface SkinPackManifest {
   food_directory: string;
   sprite_directory: string;
   menu_bar: MenuBarConfig;
+  variants?: SkinVariant[];
 }
 
 // What the desktop app's SkinPackStore decodes (SkinPackStore.swift lines 5-18)
@@ -35,6 +45,7 @@ export interface RemoteSkinEntry {
   preview_url: string | null;
   download_url: string;
   size: number;
+  variant_count: number;
 }
 
 export type SkinStatus = "pending" | "approved" | "rejected";

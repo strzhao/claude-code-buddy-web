@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import { readFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join, resolve } from "path";
 import archiver from "archiver";
 import { Writable } from "stream";
@@ -17,6 +17,14 @@ interface MenuBarConfig {
   directory: string;
 }
 
+interface SkinVariant {
+  id: string;
+  name: string;
+  sprite_prefix: string;
+  preview_image?: string;
+  bed_names?: string[];
+}
+
 interface SkinPackManifest {
   id: string;
   name: string;
@@ -24,6 +32,7 @@ interface SkinPackManifest {
   version: string;
   preview_image?: string;
   sprite_prefix: string;
+  sprite_faces_right?: boolean;
   animation_names: string[];
   canvas_size: [number, number];
   bed_names: string[];
@@ -32,6 +41,7 @@ interface SkinPackManifest {
   food_directory: string;
   sprite_directory: string;
   menu_bar: MenuBarConfig;
+  variants?: SkinVariant[];
 }
 
 // --- Local validation (steps 4-9 from validation.ts, no JSZip) ---
@@ -42,9 +52,7 @@ interface ValidationResult {
   errors: string[];
 }
 
-function validateManifestFields(
-  manifest: SkinPackManifest
-): ValidationResult {
+function validateManifestFields(manifest: SkinPackManifest): ValidationResult {
   const errors: string[] = [];
 
   // Step 4: Required string fields
@@ -74,9 +82,7 @@ function validateManifestFields(
   for (const field of requiredArrayFields) {
     const value = manifest[field];
     if (!Array.isArray(value) || (value as unknown[]).length === 0) {
-      errors.push(
-        `manifest.json missing or empty required array field: ${field}`
-      );
+      errors.push(`manifest.json missing or empty required array field: ${field}`);
     }
   }
 
@@ -90,9 +96,7 @@ function validateManifestFields(
     canvas_size[0] <= 0 ||
     canvas_size[1] <= 0
   ) {
-    errors.push(
-      "manifest.json canvas_size must be a 2-element array of positive numbers"
-    );
+    errors.push("manifest.json canvas_size must be a 2-element array of positive numbers");
   }
 
   // Step 7: menu_bar object validation
@@ -109,9 +113,7 @@ function validateManifestFields(
     for (const field of requiredMenuBarStrings) {
       const value = menu_bar[field];
       if (typeof value !== "string" || (value as string).trim() === "") {
-        errors.push(
-          `manifest.json menu_bar missing or empty required field: ${field}`
-        );
+        errors.push(`manifest.json menu_bar missing or empty required field: ${field}`);
       }
     }
 
@@ -120,9 +122,7 @@ function validateManifestFields(
       !Number.isInteger(menu_bar.walk_frame_count) ||
       menu_bar.walk_frame_count <= 0
     ) {
-      errors.push(
-        "manifest.json menu_bar.walk_frame_count must be a positive integer"
-      );
+      errors.push("manifest.json menu_bar.walk_frame_count must be a positive integer");
     }
 
     if (
@@ -130,9 +130,7 @@ function validateManifestFields(
       !Number.isInteger(menu_bar.run_frame_count) ||
       menu_bar.run_frame_count <= 0
     ) {
-      errors.push(
-        "manifest.json menu_bar.run_frame_count must be a positive integer"
-      );
+      errors.push("manifest.json menu_bar.run_frame_count must be a positive integer");
     }
   }
 
@@ -145,15 +143,13 @@ function validateManifestFields(
   const idPattern = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?$/i;
   if (!idPattern.test(manifest.id)) {
     errors.push(
-      "manifest.json id must match pattern: letters, digits, hyphens (no leading/trailing hyphens)"
+      "manifest.json id must match pattern: letters, digits, hyphens (no leading/trailing hyphens)",
     );
   }
 
   const versionPattern = /^\d+\.\d+\.\d+$/;
   if (!versionPattern.test(manifest.version)) {
-    errors.push(
-      "manifest.json version must match semver pattern: X.Y.Z (digits only)"
-    );
+    errors.push("manifest.json version must match semver pattern: X.Y.Z (digits only)");
   }
 
   if (errors.length > 0) {
@@ -196,7 +192,7 @@ async function zipDirectory(dirPath: string): Promise<Buffer> {
 
 async function uploadCommand(
   directory: string,
-  options: { server: string }
+  options: { server: string; facing?: string },
 ): Promise<void> {
   const dirPath = resolve(directory);
 
@@ -217,6 +213,22 @@ async function uploadCommand(
     process.exit(1);
   }
 
+  // Apply --facing flag: write sprite_faces_right into manifest
+  if (options.facing) {
+    const facesRight = options.facing === "right";
+    manifest.sprite_faces_right = facesRight;
+    writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
+    console.log(`Set sprite_faces_right=${facesRight} (sprites face ${options.facing})`);
+  } else if (manifest.sprite_faces_right === undefined) {
+    // Default: assume sprites face right
+    console.log(
+      "Tip: No --facing specified and no sprite_faces_right in manifest.\n" +
+        "     Defaulting to right. Use --facing left if your sprites face left.\n" +
+        "     How to tell: open your idle-a-1.png — the direction the character\n" +
+        "     is looking/walking is its facing direction.",
+    );
+  }
+
   // Step 4-9: Local validation
   const validation = validateManifestFields(manifest);
   if (!validation.valid) {
@@ -231,7 +243,7 @@ async function uploadCommand(
   const keySpritePath = join(
     dirPath,
     manifest.sprite_directory,
-    `${manifest.sprite_prefix}-idle-a-1.png`
+    `${manifest.sprite_prefix}-idle-a-1.png`,
   );
   if (!existsSync(keySpritePath)) {
     const relPath = `${manifest.sprite_directory}/${manifest.sprite_prefix}-idle-a-1.png`;
@@ -258,7 +270,7 @@ async function uploadCommand(
   const formData = new FormData();
   const zipArrayBuffer = zipBuffer.buffer.slice(
     zipBuffer.byteOffset,
-    zipBuffer.byteOffset + zipBuffer.byteLength
+    zipBuffer.byteOffset + zipBuffer.byteLength,
   ) as ArrayBuffer;
   const zipBlob = new Blob([zipArrayBuffer], { type: "application/zip" });
   formData.append("file", zipBlob, `${manifest.id}.zip`);
@@ -284,9 +296,7 @@ async function uploadCommand(
     }
     const skin = body.skin;
     if (skin) {
-      console.log(
-        `✓ Uploaded "${skin.name}" (id: ${skin.id}, status: ${skin.status})`
-      );
+      console.log(`✓ Uploaded "${skin.name}" (id: ${skin.id}, status: ${skin.status})`);
     } else {
       console.log("✓ Uploaded successfully");
     }
@@ -308,14 +318,10 @@ async function uploadCommand(
     } catch {
       body = {};
     }
-    console.error(
-      `Duplicate skin pack: ${body.error ?? "A skin with this id already exists"}`
-    );
+    console.error(`Duplicate skin pack: ${body.error ?? "A skin with this id already exists"}`);
     process.exit(1);
   } else if (response.status === 413) {
-    console.error(
-      "Upload failed: Skin pack is too large (exceeds server size limit)"
-    );
+    console.error("Upload failed: Skin pack is too large (exceeds server size limit)");
     process.exit(1);
   } else {
     let body: { error?: string };
@@ -324,17 +330,14 @@ async function uploadCommand(
     } catch {
       body = {};
     }
-    console.error(
-      `Server error (${response.status}): ${body.error ?? response.statusText}`
-    );
+    console.error(`Server error (${response.status}): ${body.error ?? response.statusText}`);
     process.exit(1);
   }
 }
 
 // --- CLI setup ---
 
-const DEFAULT_SERVER =
-  process.env["SKIN_STORE_URL"] ?? "http://localhost:3000";
+const DEFAULT_SERVER = process.env["SKIN_STORE_URL"] ?? "http://localhost:3000";
 
 program
   .name("buddy-skin")
@@ -344,12 +347,20 @@ program
 program
   .command("upload <directory>")
   .description("Upload a skin pack directory to the store")
+  .option("--server <url>", "Store API URL", DEFAULT_SERVER)
   .option(
-    "--server <url>",
-    "Store API URL",
-    DEFAULT_SERVER
+    "--facing <direction>",
+    "Sprite facing direction: 'left' or 'right'.\n" +
+      "  Open your idle-a-1.png to check which way the character looks.\n" +
+      "  - right (default): character faces right →\n" +
+      "  - left: character faces left ←\n" +
+      "  Sets sprite_faces_right in manifest.json automatically.",
   )
-  .action((directory: string, options: { server: string }) => {
+  .action((directory: string, options: { server: string; facing?: string }) => {
+    if (options.facing && !["left", "right"].includes(options.facing)) {
+      console.error("Error: --facing must be 'left' or 'right'");
+      process.exit(1);
+    }
     uploadCommand(directory, options).catch((err: unknown) => {
       console.error("Unexpected error:", err);
       process.exit(1);
