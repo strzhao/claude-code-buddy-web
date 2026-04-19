@@ -1,0 +1,67 @@
+src/lib/validation.ts
+  5bccfbcf2b21321c 141-150,152-163,169-170,172
+  90aad7a5418d7874 140,151,164-165,167-168,173-175
+package.json
+  5bccfbcf2b21321c 3
+src/lib/types.ts
+  90aad7a5418d7874 11-19,36,48
+src/app/api/skins/route.ts
+  5bccfbcf2b21321c 17
+.gitignore
+  5bccfbcf2b21321c 50
+cli/package.json
+  5bccfbcf2b21321c 3
+CLAUDE.md
+  99d3d3025ed66184 98-102,122,149-151,161-190
+cli/src/index.ts
+  90aad7a5418d7874 4,216-227,229-231,246,273,299,321,324,333,340,350,352-356,359-363
+  5bccfbcf2b21321c 20-27,35,44
+src/app/api/upload/route.ts
+  90aad7a5418d7874 102-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "b83916b19aa0101b591515fb8eecfca33b24bc15",
+  "prompts": {
+    "5bccfbcf2b21321c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f6c8f3f8-f858-44f4-b934-6fe06e087acd",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 449,
+      "total_deletions": 36,
+      "accepted_lines": 41,
+      "overriden_lines": 1
+    },
+    "90aad7a5418d7874": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e7c9876e-47d8-4424-b312-fadd24e57b24",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 94,
+      "total_deletions": 9,
+      "accepted_lines": 52,
+      "overriden_lines": 4
+    },
+    "99d3d3025ed66184": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b608a9c3-edd1-44d7-bbd6-05784709bd19",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "赵桂雄",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 39,
+      "overriden_lines": 0
+    }
+  }
+}
