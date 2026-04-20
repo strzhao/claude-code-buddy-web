@@ -114,7 +114,11 @@ src/
 ├── components/
 │   ├── UploadForm.tsx              # 上传表单
 │   ├── AdminDashboard.tsx          # 管理仪表板
-│   └── StatusBadge.tsx             # 状态标签
+│   ├── StatusBadge.tsx             # 状态标签
+│   └── landing/
+│       ├── CatSkinCard.tsx         # 首页硬编码默认猫咪皮肤卡片（hover 帧动画）
+│       ├── SkinCard.tsx            # 皮肤卡片（已上架皮肤展示）
+│       └── SkinsSection.tsx        # 首页皮肤商店区块
 └── lib/
     ├── types.ts                    # 共享 TypeScript 类型
     ├── constants.ts                # 全局常量
