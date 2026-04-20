@@ -1,8 +1,19 @@
+"use client";
+
+import { useState } from "react";
 import type { SkinRecord } from "@/lib/types";
 
 export default function SkinCard({ skin }: { skin: SkinRecord }) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className="bg-surface rounded pixel-border pixel-shadow-sm p-4 flex flex-col">
+    <div
+      className={`bg-surface rounded pixel-border p-4 flex flex-col transition-transform ${
+        hovered ? "pixel-shadow -translate-y-0.5" : "pixel-shadow-sm"
+      }`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       {skin.preview_blob_url ? (
         <div className="w-full aspect-square bg-surface-alt rounded mb-3 flex items-center justify-center overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}

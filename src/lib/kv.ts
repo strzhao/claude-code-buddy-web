@@ -107,9 +107,7 @@ export async function moveSkinStatus(
 }
 
 // List skins by status (or "all"), sorted by created_at descending
-export async function listSkinsByStatus(
-  status: SkinStatus | "all",
-): Promise<SkinRecord[]> {
+export async function listSkinsByStatus(status: SkinStatus | "all"): Promise<SkinRecord[]> {
   const members = await redis().smembers(statusIndex(status));
   if (members.length === 0) {
     return [];
@@ -121,13 +119,10 @@ export async function listSkinsByStatus(
   }
   const results = await pipe.exec();
 
-  const records = (results as Array<SkinRecord | null>).filter(
-    (r): r is SkinRecord => r !== null,
-  );
+  const records = (results as Array<SkinRecord | null>).filter((r): r is SkinRecord => r !== null);
 
   return records.sort(
-    (a, b) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
   );
 }
 
@@ -135,4 +130,16 @@ export async function listSkinsByStatus(
 export async function skinExists(ck: string): Promise<boolean> {
   const count = await redis().exists(kvKey(ck));
   return count === 1;
+}
+
+// Update fields on an existing skin record (does not move status indexes)
+export async function updateSkinRecord(
+  ck: string,
+  updates: Partial<SkinRecord>,
+): Promise<SkinRecord | null> {
+  const existing = await getSkinRecord(ck);
+  if (!existing) return null;
+  const updated: SkinRecord = { ...existing, ...updates };
+  await redis().set(kvKey(ck), updated);
+  return updated;
 }
